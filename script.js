@@ -1,11 +1,6 @@
-const texts = document.querySelectorAll('.scroll-text');
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.3 }); // срабатывает когда элемент на 30% в видимой зоне
-
-texts.forEach(text => observer.observe(text));
+// Простая имитация отправки формы
+document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Спасибо! Ваша заявка отправлена.');
+    this.reset();
+});
