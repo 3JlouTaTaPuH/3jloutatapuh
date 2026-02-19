@@ -1,14 +1,11 @@
-// Отслеживаем, когда элемент появляется на экране
-const faders = document.querySelectorAll('.fade-text');
+const texts = document.querySelectorAll('.scroll-text');
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
+    if(entry.isIntersecting){
       entry.target.classList.add('visible');
     }
   });
-}, { threshold: 0.5 });
+}, { threshold: 0.3 }); // срабатывает когда элемент на 30% в видимой зоне
 
-faders.forEach(fader => {
-  observer.observe(fader);
-});
+texts.forEach(text => observer.observe(text));
