@@ -3605,21 +3605,25 @@
     checkScroll();
 </script>
         <script>
-    var el = document.querySelector('[data-elem-id="1743094174954"]');
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(40px)';
-    el.style.transition = 'opacity 0.9s ease, transform 0.9s ease';
+    window.addEventListener('load', function() {
+        var el = document.querySelector('[data-elem-id="1743094174954"]');
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(60px)';
+        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        el.style.willChange = 'opacity, transform';
 
-    function checkEl() {
-        var rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 80) {
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
+        function checkEl() {
+            var rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 60) {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0px)';
+                window.removeEventListener('scroll', checkEl);
+            }
         }
-    }
 
-    window.addEventListener('scroll', checkEl);
-    checkEl();
+        window.addEventListener('scroll', checkEl);
+        checkEl();
+    });
 </script>
     </body>
 </html>
