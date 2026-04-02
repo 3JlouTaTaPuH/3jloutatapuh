@@ -2941,7 +2941,7 @@
                         body.append('_subject', 'Анкета — ' + name);
                         try {
                             var res = await fetch('https://formspree.io/f/mwvrykzr', { method: 'POST', body: body, headers: { Accept: 'application/json' } });
-                            if (res.ok) { document.getElementById('wfCard').innerHTML = '<div class="wf-ok">Спасибо, мы вас ждём!</div>'; }
+                            if (res.ok) { document.getElementById('wfCard').innerHTML = '<div class="wf-ok">Спасибо, мы Вас ждём!</div>'; }
                             else { btn.textContent = 'Попробуйте ещё раз'; btn.disabled = false; }
                         } catch(e) { btn.textContent = 'Попробуйте ещё раз'; btn.disabled = false; }
                     }
