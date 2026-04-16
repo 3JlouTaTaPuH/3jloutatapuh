@@ -3156,21 +3156,31 @@
                                 <span class="loader"></span>
                             </div>
                             <script>
+                                const preloaderInitialOverflow = document.body.style.overflow;
                                 document.body.style.overflow = 'hidden';
                                 const loader = () => {
-                                    document.body.style.overflow = '';
+                                      if (document.body.style.overflow === 'hidden') {
+                                        document.body.style.overflow = preloaderInitialOverflow || 'auto';
+                                    }
                                     const preloader = document.getElementById('preloader');
-                                      if (!preloader) {
+                                   if (!preloader) {
                                         return;
                                     }
                                     const fadeout = setInterval( () => {
-                                        const opacity = getComputedStyle(preloader).opacity;
-                                        opacity > 0 ? preloader.style.opacity = opacity - 0.05 : (clearInterval(fadeout),
+                                        const opacity = Number(getComputedStyle(preloader).opacity);
+                                        opacity > 0 ? preloader.style.opacity = String(opacity - 0.05) : (clearInterval(fadeout),
                                         preloader.remove());
                                     }
                                     , 15);
                      };
-                                window.addEventListener('load', loader);
+                                };
+                                if (document.readyState === 'complete') {
+                                    loader();
+                                } else {
+                                    window.addEventListener('load', loader, {
+                                        once: true
+                                    });
+                                }
                                 setTimeout(loader, 5000);
                             </script>
                             <style>
