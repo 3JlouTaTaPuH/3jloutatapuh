@@ -3131,7 +3131,7 @@
         document.getElementById('timer-seconds').textContent = String(seconds).padStart(2, '0');
     }
     updateTimer();
-    setInterval(updateTimer, 1000);
+ setInterval(updateTimer, 1000);
 </script>
 <script>
     t_onFuncLoad('t396_initialScale', function() {
@@ -3158,30 +3158,40 @@
                             <script>
                                 const preloaderInitialOverflow = document.body.style.overflow;
                                 document.body.style.overflow = 'hidden';
-                                const loader = () => {
-                                      if (document.body.style.overflow === 'hidden') {
-                                        document.body.style.overflow = preloaderInitialOverflow || 'auto';
-                                    }
-                                    const preloader = document.getElementById('preloader');
-                                   if (!preloader) {
+
+                                let preloaderClosed = false;
+                                const closePreloader = () => {
+                                    if (preloaderClosed) {
                                         return;
                                     }
-                                    const fadeout = setInterval( () => {
-                                        const opacity = Number(getComputedStyle(preloader).opacity);
-                                        opacity > 0 ? preloader.style.opacity = String(opacity - 0.05) : (clearInterval(fadeout),
-                                        preloader.remove());
+                                    preloaderClosed = true;
+
+                                    if (document.body.style.overflow === 'hidden') {
+                                        document.body.style.overflow = preloaderInitialOverflow || '';
                                     }
-                                    , 15);
-                     };
+
+                                    const preloader = document.getElementById('preloader');
+                                    if (!preloader) {
+                                        return;
+                                    }
+
+                                    preloader.style.opacity = '0';
+                                    preloader.style.pointerEvents = 'none';
+                                    setTimeout( () => {
+                                        preloader.remove();
+                                    }
+                                    , 350);
                                 };
+
                                 if (document.readyState === 'complete') {
-                                    loader();
+                                    setTimeout(closePreloader, 0);
                                 } else {
-                                    window.addEventListener('load', loader, {
+                                    window.addEventListener('load', closePreloader, {
                                         once: true
                                     });
                                 }
-                                setTimeout(loader, 5000);
+
+                                setTimeout(closePreloader, 5000);
                             </script>
                             <style>
                                 #preloader {
@@ -3196,6 +3206,7 @@
                                     height: 100vh;
                                     height: 100dvh;
                                     opacity: 1;
+                                    transition: opacity .35s ease;
                                     background-color: #0F3B2E;
                                     overflow: hidden;
                                     cursor: progress;
@@ -3213,6 +3224,7 @@
                                     transform: translateZ(0);
                                     animation: mltShdSpin 1.7s infinite ease, round 1.7s infinite ease;
                                 }
+
 
                                 @keyframes mltShdSpin {
                                     0% {
