@@ -5,7 +5,19 @@
     * {
         color: #000000;
     }
+             body.page-loading {
+        opacity: 0;
+        visibility: hidden;
+    }
 </style>
+          <noscript>
+            <style>
+                body.page-loading {
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                }
+            </style>
+        </noscript>
         <meta charset="utf-8"/>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -130,6 +142,11 @@
             window.dataLayer = window.dataLayer || [];
         </script>
         <script type="text/javascript">
+            window.addEventListener('load', function() {
+                document.body.classList.remove('page-loading');
+            });
+        </script>
+        <script type="text/javascript">
             (function() {
                 if ((/bot|google|yandex|baidu|bing|msn|duckduckbot|teoma|slurp|crawler|spider|robot|crawling|facebook/i.test(navigator.userAgent)) === false && typeof (sessionStorage) != 'undefined' && sessionStorage.getItem('visited') !== 'y' && document.visibilityState) {
                     var style = document.createElement('style');
@@ -154,7 +171,7 @@
             )();
         </script>
     </head>
-    <body class="t-body" style="margin:0; color: #000000;">
+    <body class="t-body page-loading" style="margin:0; color: #000000;">
         <!--allrecords-->
         <div id="allrecords" class="t-records" data-hook="blocks-collection-content-node" data-tilda-project-id="11947131" data-tilda-page-id="115342826" data-tilda-page-alias="our_story2" data-tilda-formskey="411057c2229387bffccf91e411947131" data-tilda-cookie="no" data-tilda-lazy="yes" data-tilda-project-lang="RU" data-tilda-root-zone="com" data-tilda-project-headcode="yes" data-tilda-ts="y" data-tilda-project-country="RU">
             <div id="rec1862608051" class="r t-rec uc-abr-startscreen" style=" " data-animationappear="off" data-record-type="396">
