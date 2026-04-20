@@ -3345,65 +3345,71 @@
                                     display: none !important;
                                 }
                             </style>
-                         <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const settings = {
-            start: true,
-            click: [".playbgmusic"],
-        };
-        const body = document.querySelector("body");
-        const screen = body.querySelector(".uc-abr-startscreen");
-        if (!screen) return;
-        const button = screen.querySelector(".abr-startbutton");
-        if (!button) return;
+                      <script>
+    // Блокируем СИНХРОННО, до любых событий
+    (function() {
+        function blockButton() {
+            var button = document.querySelector(".abr-startbutton");
+            if (button) {
+                button.style.pointerEvents = 'none';
+                button.style.opacity = '0.4';
+                button.style.cursor = 'not-allowed';
+                return true;
+            }
+            return false;
+        }
 
-        // Блокируем кнопку сразу
-        button.style.pointerEvents = 'none';
-        button.style.opacity = '0.4';
-        button.style.cursor = 'not-allowed';
+        // Пробуем сразу
+        if (!blockButton()) {
+            // Если элемент ещё не в DOM — ждём его появления
+            var observer = new MutationObserver(function() {
+                if (blockButton()) observer.disconnect();
+            });
+            observer.observe(document.documentElement, { childList: true, subtree: true });
+        }
 
         function activateButton() {
+            var button = document.querySelector(".abr-startbutton");
+            var screen = document.querySelector(".uc-abr-startscreen");
+            var body = document.querySelector("body");
+            if (!button || !screen) return;
+
             button.style.pointerEvents = '';
             button.style.opacity = '';
             button.style.cursor = 'pointer';
 
-            button.addEventListener("click", () => {
+            button.addEventListener("click", function() {
                 screen.classList.add("opacity");
                 button.classList.add("opacity");
                 body.style.overflow = "auto";
-                if (settings.start) {
-                    window.scrollTo(0, 0);
-                }
-                settings.click.forEach((selector) => {
-                    const element = document.querySelector(selector);
-                    if (element) element.click();
-                });
+                window.scrollTo(0, 0);
+                var playBtn = document.querySelector(".playbgmusic");
+                if (playBtn) playBtn.click();
             });
         }
 
-        window.addEventListener('load', function () {
-            const allImages = Array.from(document.querySelectorAll('img'));
-            const imagePromises = allImages.map(function (img) {
+        window.addEventListener('load', function() {
+            var allImages = Array.from(document.querySelectorAll('img'));
+            var imagePromises = allImages.map(function(img) {
                 if (img.complete && img.naturalWidth > 0) return Promise.resolve();
-                return new Promise(function (resolve) {
+                return new Promise(function(resolve) {
                     img.addEventListener('load', resolve, { once: true });
                     img.addEventListener('error', resolve, { once: true });
                     setTimeout(resolve, 5000);
                 });
             });
 
-            const fontsReady = (document.fonts && document.fonts.ready)
+            var fontsReady = (document.fonts && document.fonts.ready)
                 ? document.fonts.ready
                 : Promise.resolve();
 
-            Promise.all([fontsReady].concat(imagePromises)).then(function () {
+            Promise.all([fontsReady].concat(imagePromises)).then(function() {
                 setTimeout(activateButton, 1000);
             });
         });
 
-        // Фоллбэк на случай зависания
         setTimeout(activateButton, 12000);
-    });
+    })();
 </script>
                             <!-- nominify end -->
                         </div>
