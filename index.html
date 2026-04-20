@@ -421,7 +421,7 @@
                                 <img class='tn-atom__img t-img' data-original='https://raw.githubusercontent.com/3JlouTaTaPuH/3jloutatapuh.github.io/main/konvert_top.webp' src='https://raw.githubusercontent.com/3JlouTaTaPuH/3jloutatapuh.github.io/main/konvert_top.webp' alt='' imgfield='tn_img_1749841831092'/>
                             </div>
                         </div>
-                        <div class='t396__elem tn-elem abr-startbutton tn-elem__18626080511749841935512' data-elem-id='1749841935512' data-elem-type='image' data-field-top-value="15" data-field-left-value="0" data-field-height-value="158" data-field-width-value="283" data-field-axisy-value="center" data-field-axisx-value="center" data-field-container-value="window" data-field-topunits-value="px" data-field-leftunits-value="px" data-field-heightunits-value="px" data-field-widthunits-value="px" data-field-filewidth-value="669" data-field-fileheight-value="373" data-field-heightmode-value="hug" data-field-top-res-320-value="43" data-field-left-res-320-value="0" data-field-height-res-320-value="158">
+                       <div class='t396__elem tn-elem abr-startbutton tn-elem__18626080511749841935512' style="pointer-events: none; opacity: 0.4; cursor: not-allowed;" data-elem-id='1749841935512' data-elem-type='image' data-field-top-value="15" data-field-left-value="0" data-field-height-value="158" data-field-width-value="283" data-field-axisy-value="center" data-field-axisx-value="center" data-field-container-value="window" data-field-topunits-value="px" data-field-leftunits-value="px" data-field-heightunits-value="px" data-field-widthunits-value="px" data-field-filewidth-value="669" data-field-fileheight-value="373" data-field-heightmode-value="hug" data-field-top-res-320-value="43" data-field-left-res-320-value="0" data-field-height-res-320-value="158">
                             <div class='tn-atom'>
                                 <img class='tn-atom__img t-img' data-original='https://static.tildacdn.com/tild3831-3364-4662-b864-386565393663/hf_20260130_121201_e.png' src='https://thb.tildacdn.com/tild3831-3364-4662-b864-386565393663/-/resize/20x/hf_20260130_121201_e.png' alt='' imgfield='tn_img_1749841935512'/>
                             </div>
@@ -3346,28 +3346,7 @@
                                 }
                             </style>
                       <script>
-    // Блокируем СИНХРОННО, до любых событий
     (function() {
-        function blockButton() {
-            var button = document.querySelector(".abr-startbutton");
-            if (button) {
-                button.style.pointerEvents = 'none';
-                button.style.opacity = '0.4';
-                button.style.cursor = 'not-allowed';
-                return true;
-            }
-            return false;
-        }
-
-        // Пробуем сразу
-        if (!blockButton()) {
-            // Если элемент ещё не в DOM — ждём его появления
-            var observer = new MutationObserver(function() {
-                if (blockButton()) observer.disconnect();
-            });
-            observer.observe(document.documentElement, { childList: true, subtree: true });
-        }
-
         function activateButton() {
             var button = document.querySelector(".abr-startbutton");
             var screen = document.querySelector(".uc-abr-startscreen");
