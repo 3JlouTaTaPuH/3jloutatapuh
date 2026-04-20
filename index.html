@@ -3345,46 +3345,66 @@
                                     display: none !important;
                                 }
                             </style>
-                            <script>
-                                document.addEventListener("DOMContentLoaded", () => {
-                                    const settings = {
-                                        // true - включить(да), false - выключить(нет)
-                                        start: true,
-                                        // Старт всегда в начале
-                                        click: [".playbgmusic"],
-                                        // Элементы по которым нужно отразить клик (Пример: [".playbgmusic", ".crosswall", ...])
-                                    };
-                                    const body = document.querySelector("body");
-                                    const screen = body.querySelector(".uc-abr-startscreen");
-                                    if (!screen) {
-                                        TiLab.console.warn("Открывашка", `Блок с классом ".uc-abr-startscreen" не найден.`);
-                                    }
-                                    const button = screen.querySelector(".abr-startbutton");
-                                    if (!button) {
-                                        TiLab.console.warn("Открывашка", `Кнопка с классом ".abr-startbutton" для открытия не найдена.`);
-                                    }
-                                    button.addEventListener("click", () => {
-                                        screen.classList.add("opacity");
-                                        button.classList.add("opacity");
-                                        body.style.overflow = "auto";
-                                        if (settings.start) {
-                                            window.scrollTo(0, 0);
-                                        }
-                                        settings.click.forEach( (selector) => {
-                                            const element = document.querySelector(selector);
-                                            if (!element) {
-                                                TiLab.console.warn("Открывашка", `Элемент с селектором ${selector} не найден.`);
-                                            }
-                                            if (element) {
-                                                element.click();
-                                            }
-                                        }
-                                        );
-                                    }
-                                    );
-                                }
-                                );
-                            </script>
+                         <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const settings = {
+            start: true,
+            click: [".playbgmusic"],
+        };
+        const body = document.querySelector("body");
+        const screen = body.querySelector(".uc-abr-startscreen");
+        if (!screen) return;
+        const button = screen.querySelector(".abr-startbutton");
+        if (!button) return;
+
+        // Блокируем кнопку сразу
+        button.style.pointerEvents = 'none';
+        button.style.opacity = '0.4';
+        button.style.cursor = 'not-allowed';
+
+        function activateButton() {
+            button.style.pointerEvents = '';
+            button.style.opacity = '';
+            button.style.cursor = 'pointer';
+
+            button.addEventListener("click", () => {
+                screen.classList.add("opacity");
+                button.classList.add("opacity");
+                body.style.overflow = "auto";
+                if (settings.start) {
+                    window.scrollTo(0, 0);
+                }
+                settings.click.forEach((selector) => {
+                    const element = document.querySelector(selector);
+                    if (element) element.click();
+                });
+            });
+        }
+
+        window.addEventListener('load', function () {
+            const allImages = Array.from(document.querySelectorAll('img'));
+            const imagePromises = allImages.map(function (img) {
+                if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+                return new Promise(function (resolve) {
+                    img.addEventListener('load', resolve, { once: true });
+                    img.addEventListener('error', resolve, { once: true });
+                    setTimeout(resolve, 5000);
+                });
+            });
+
+            const fontsReady = (document.fonts && document.fonts.ready)
+                ? document.fonts.ready
+                : Promise.resolve();
+
+            Promise.all([fontsReady].concat(imagePromises)).then(function () {
+                setTimeout(activateButton, 1000);
+            });
+        });
+
+        // Фоллбэк на случай зависания
+        setTimeout(activateButton, 12000);
+    });
+</script>
                             <!-- nominify end -->
                         </div>
                     </div>
